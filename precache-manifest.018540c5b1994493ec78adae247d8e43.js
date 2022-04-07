@@ -12,11 +12,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "apple-touch-icon.png"
   },
   {
-    "revision": "1022211701053e2397eecb625d9b2a93",
+    "revision": "d67279e678355313e9f3581894c9cc7e",
     "url": "browserconfig.xml"
   },
   {
-    "revision": "57e5fdba60221b325b43",
+    "revision": "393b307a519e4fb52f22",
     "url": "css/app.768a4bdc.css"
   },
   {
@@ -32,23 +32,23 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "img/logo.svg"
   },
   {
-    "revision": "184e1676de353aea04f3a7605a2949ca",
+    "revision": "65dab68078b5b7223e5e19a51e17027c",
     "url": "index.html"
   },
   {
-    "revision": "57e5fdba60221b325b43",
-    "url": "js/app.103cd22d.js"
+    "revision": "393b307a519e4fb52f22",
+    "url": "js/app.3f3120ee.js"
   },
   {
-    "revision": "cac1df1b83f16bbba851",
-    "url": "js/chunk-vendors.a327a274.js"
+    "revision": "94c4efe14cd2387a4a55",
+    "url": "js/chunk-vendors.fba73fd6.js"
   },
   {
     "revision": "66bee81aa776bc06f19b1fbb2401c55f",
     "url": "levenshtein.worker.js"
   },
   {
-    "revision": "d11ca99594547b7778beddfd3a490575",
+    "revision": "09ce2908c9c3fa72dd43a815a0b4e772",
     "url": "manifest.json"
   },
   {
@@ -80,7 +80,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "safari-pinned-tab.svg"
   },
   {
-    "revision": "35f3698d1ef7a7459be6ec9005be6466",
+    "revision": "7f7d42ee100da5e5f4565e62d2ebeed9",
     "url": "site.webmanifest"
   }
 ]);
