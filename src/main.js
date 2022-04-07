@@ -24,7 +24,8 @@ import {
   FormRadioPlugin,
   TabsPlugin,
   CardPlugin,
-  ImagePlugin
+  ImagePlugin,
+  PaginationPlugin
 } from 'bootstrap-vue'
 
 Vue.use(LayoutPlugin)
@@ -41,6 +42,7 @@ Vue.use(InputGroupPlugin)
 Vue.use(NavbarPlugin)
 Vue.use(ProgressPlugin)
 Vue.use(TablePlugin)
+Vue.use(PaginationPlugin)
 Vue.use(BadgePlugin)
 Vue.use(ModalPlugin)
 Vue.use(DropdownPlugin)

@@ -161,11 +161,23 @@ export default {
           } else if (e.data.duplicates) {
             const end = Date.now()
 
-            this.duplicates.push({
-              uuid: this.uuidv4(),
-              duplicates: e.data.duplicates,
-              runtime: Math.ceil((end - start) / 1000)
+            const dup = e.data.duplicates
+
+            dup.forEach(d => {
+              Object.freeze(d)
             })
+
+            Object.freeze(dup)
+
+            const newData = {
+              uuid: this.uuidv4(),
+              duplicates: dup,
+              runtime: Math.ceil((end - start) / 1000)
+            }
+
+            Object.freeze(newData)
+
+            this.duplicates.push(newData)
 
             this.progress = 0
           }
