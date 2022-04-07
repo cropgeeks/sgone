@@ -158,7 +158,7 @@ onmessage = e => {
       .map(r => {
         const parts = r.split('\t')
         return {
-          id: idColumn ? parts[idColumn] : null,
+          id: parts[idColumn],
           name: parts[nameColumn]
         }
       })

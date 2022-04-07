@@ -54,15 +54,8 @@
             <template #title>
               Results <button type="button" aria-label="Close" class="close ml-2" @click.stop="deleteTab(index)">×</button>
             </template>
-            <p>{{ dup.duplicates.length }} possible duplicates have been found<template v-if="dup.runtime"> in {{ dup.runtime }} seconds</template>.</p>
 
-            <b-button class="mb-3" @click="download(index)">Download</b-button>
-
-            <b-table :items="dup.duplicates" :fields="columns" responsive striped hover>
-              <template #cell(type)="data">
-                <b-badge :variant="data.value === 'exact' ? 'success' : 'warning'">{{ data.value }}</b-badge>
-              </template>
-            </b-table>
+            <Results :duplicates="dup" />
           </b-tab>
         </b-tabs>
       </b-card>
@@ -75,10 +68,12 @@
 
 <script>
 import GerminateModal from '@/components/modals/GerminateModal'
+import Results from '@/components/Results'
 
 export default {
   components: {
-    GerminateModal
+    GerminateModal,
+    Results
   },
   data: function () {
     return {
@@ -88,14 +83,7 @@ export default {
       duplicates: [],
       headers: null,
       idColumn: null,
-      nameColumn: null,
-      columns: [
-        { key: 'type', sortable: true, label: 'Match type' },
-        { key: 'one.id', sortable: true },
-        { key: 'one.name', sortable: true },
-        { key: 'two.id', sortable: true },
-        { key: 'two.name', sortable: true }
-      ]
+      nameColumn: null
     }
   },
   computed: {
