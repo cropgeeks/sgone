@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "browserconfig.xml"
   },
   {
-    "revision": "393b307a519e4fb52f22",
+    "revision": "42ef24f86a9ff9043231",
     "url": "css/app.768a4bdc.css"
   },
   {
@@ -32,19 +32,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "img/logo.svg"
   },
   {
-    "revision": "65dab68078b5b7223e5e19a51e17027c",
+    "revision": "129bf767b89709bf2b9e8f52c6d0e103",
     "url": "index.html"
   },
   {
-    "revision": "393b307a519e4fb52f22",
-    "url": "js/app.3f3120ee.js"
+    "revision": "42ef24f86a9ff9043231",
+    "url": "js/app.b303512c.js"
   },
   {
     "revision": "94c4efe14cd2387a4a55",
     "url": "js/chunk-vendors.fba73fd6.js"
   },
   {
-    "revision": "66bee81aa776bc06f19b1fbb2401c55f",
+    "revision": "34da8b146a1cd9329f8e01ea0319cb24",
     "url": "levenshtein.worker.js"
   },
   {
