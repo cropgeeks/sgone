@@ -16,11 +16,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "browserconfig.xml"
   },
   {
-    "revision": "9eb3393fe94120d46716",
+    "revision": "6da583e3d2cf63e2aaaa",
     "url": "css/app.3b64833b.css"
   },
   {
-    "revision": "9eb60447f6d85d43e57e",
+    "revision": "53e6514cbe76a86b9be5",
+    "url": "css/chunk-021c5756.4120dafe.css"
+  },
+  {
+    "revision": "7cd2370f03d168d091c1",
     "url": "css/chunk-46fe1e96.7d260c85.css"
   },
   {
@@ -32,24 +36,32 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "favicon-32x32.png"
   },
   {
+    "revision": "5349b785dbc1603059537ec439176979",
+    "url": "img/hutton.5349b785.svg"
+  },
+  {
+    "revision": "c1d6856e5ba91bed5a67f90bb3725faf",
+    "url": "img/ics-sdg.c1d6856e.svg"
+  },
+  {
     "revision": "4aaf77eea08b34d27fec0b29441fa335",
     "url": "img/logo.svg"
   },
   {
-    "revision": "394ced5a7a106117c6a3fff70cf2a3ab",
+    "revision": "92464a9e27ad02c500612d3171cbef2f",
     "url": "index.html"
   },
   {
-    "revision": "9eb3393fe94120d46716",
-    "url": "js/app.0d6eecfc.js"
+    "revision": "6da583e3d2cf63e2aaaa",
+    "url": "js/app.b4d158ba.js"
   },
   {
-    "revision": "85c0e0de0cfda226ca60",
-    "url": "js/chunk-2d22d746.af294775.js"
+    "revision": "53e6514cbe76a86b9be5",
+    "url": "js/chunk-021c5756.0e63d534.js"
   },
   {
-    "revision": "9eb60447f6d85d43e57e",
-    "url": "js/chunk-46fe1e96.2addb277.js"
+    "revision": "7cd2370f03d168d091c1",
+    "url": "js/chunk-46fe1e96.97e860be.js"
   },
   {
     "revision": "c4583815862a243e665f",
