@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container class="mt-3">
     <b-jumbotron>
       <b-row>
         <b-col cols=12 sm=4 class="text-center text-sm-right" order="1" order-sm="2">
@@ -73,7 +73,7 @@
     <h1 v-else>Please use a browser that supports Web Workers</h1>
 
     <GerminateModal ref="germinateModal" @data-loaded="setGerminateData" />
-  </div>
+  </b-container>
 </template>
 
 <script>

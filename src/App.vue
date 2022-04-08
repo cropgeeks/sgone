@@ -26,9 +26,7 @@
     </b-navbar>
 
     <!-- The main content -->
-    <b-container class="my-4">
-      <router-view :key="$route.path" />
-    </b-container>
+    <router-view :key="$route.path" />
   </div>
 </template>
 
