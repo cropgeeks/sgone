@@ -159,7 +159,8 @@ onmessage = e => {
         const parts = r.split('\t')
         return {
           id: parts[idColumn],
-          name: parts[nameColumn]
+          name: parts[nameColumn],
+          reduced: parts[nameColumn].toLowerCase().replace(/[^a-z0-9]+/g, '')
         }
       })
 
@@ -173,8 +174,8 @@ onmessage = e => {
         count++
         const progress = count / totalComparisons * 100.0
 
-        const one = rows[i].name.toLowerCase().replace(/[^a-z0-9]+/g, '')
-        const two = rows[j].name.toLowerCase().replace(/[^a-z0-9]+/g, '')
+        const one = rows[i].reduced
+        const two = rows[j].reduced
 
         const avgLength = (one.length + two.length) / 2
         const d = distance(one, two)
@@ -195,12 +196,29 @@ onmessage = e => {
             two: rows[j]
           })
         } else if (d <= threshold) {
+          // Check if one if a substring of the other
+          if (one.includes(two) || two.includes(one)) {
+            // Some pre- or postfix has been added, most likely not a duplicate
+            continue
+          }
+          // Get only the numeric parts to check for incremental numbering
           const oneNumbers = one.replace(/\D/g, '')
           const twoNumbers = two.replace(/\D/g, '')
 
           try {
             const oneLong = parseInt(oneNumbers)
             const twoLong = parseInt(twoNumbers)
+
+            if (isNaN(oneLong) && isNaN(twoLong)) {
+              // There are no numbers in both, so all differences are in the text, likely duplicate
+              duplicates.push({
+                type: 'likely',
+                one: rows[i],
+                two: rows[j]
+              })
+              // Continue with the next
+              continue
+            }
 
             if (oneLong !== twoLong) {
               // They are most likely different entries with incremental numbering
@@ -210,6 +228,8 @@ onmessage = e => {
                 one: rows[i],
                 two: rows[j]
               })
+              // Continue with the next
+              continue
             }
           } catch (err) {
             if (oneNumbers === twoNumbers) {
@@ -218,19 +238,30 @@ onmessage = e => {
                 one: rows[i],
                 two: rows[j]
               })
+              // Continue with the next
+              continue
             }
           }
         }
 
         if (progress > lastProgress + 5) {
-          postMessage({ progress })
+          postMessage({
+            running: true,
+            done: count,
+            total: totalComparisons,
+            duplicateCount: duplicates.length
+          })
           lastProgress = Math.floor(progress)
         }
       }
     }
 
-    postMessage({ progress: 100 })
-    postMessage({ duplicates })
+    postMessage({
+      running: false,
+      done: count,
+      total: totalComparisons,
+      duplicates: duplicates
+    })
   }
 }
 
