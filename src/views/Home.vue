@@ -7,52 +7,62 @@
         </b-col>
         <b-col cols=12 sm=8 order="2" order-sm="1">
           <h1 class="display-3 text-center text-sm-left">SGONE</h1>
-          <p class="lead text-center text-sm-left">Easily identify possible duplicates in your data.</p>
+          <p class="lead text-center text-sm-left">{{ $t('jumbotronLead') }}</p>
         </b-col>
       </b-row>
     </b-jumbotron>
     <template v-if="supportsWorker">
-      <b-dropdown text="Import" class="mb-3">
-        <b-dropdown-item @click="$refs.germinateModal.show()">From Germinate</b-dropdown-item>
+      <b-dropdown :text="$t('buttonImport')" class="mb-3">
+        <b-dropdown-item @click="$refs.germinateModal.show()">{{ $t('buttonImportFromGerminate') }}</b-dropdown-item>
       </b-dropdown>
 
       <b-form @submit.prevent="onSubmit">
-        <b-form-group label="Input" label-for="input">
-          <b-form-textarea id="input" :rows="6" v-model="input"/>
+        <b-form-group label-for="input">
+          <template v-slot:label>
+            <span>{{ $t('formLabelInput') }} </span><BIconQuestionCircle id="input-help" />
+            <b-popover target="input-help" triggers="hover" placement="bottom">
+              <template #title>{{ $t('popoverTitleInput') }}</template>
+              <div v-html="$t('popoverHtmlInput')" />
+            </b-popover>
+          </template>
+          <b-form-textarea id="input" @keydown.tab.prevent="tabber($event)" :rows="6" v-model="input"/>
         </b-form-group>
 
         <b-row>
           <b-col cols=12 sm=6>
-            <b-form-group label="Id column" label-for="id-column">
+            <b-form-group :label="$t('formLabelIdColumn')" label-for="id-column">
               <b-form-select :options="columnOptions" v-model="idColumn">
                 <template #first>
-                  <b-form-select-option :value="null" disabled id="id-column">-- Please select the id column --</b-form-select-option>
+                  <b-form-select-option :value="null" disabled id="id-column">{{ $t('formDropdownPlaceholderIdColumn') }}</b-form-select-option>
                 </template>
               </b-form-select>
             </b-form-group>
           </b-col>
           <b-col cols=12 sm=6>
-            <b-form-group label="Name column" label-for="name-column">
+            <b-form-group :label="$t('formLabelNameColumn')" label-for="name-column">
               <b-form-select :options="columnOptions" v-model="nameColumn">
                 <template #first>
-                  <b-form-select-option :value="null" disabled id="name-column">-- Please select the name column --</b-form-select-option>
+                  <b-form-select-option :value="null" disabled id="name-column">{{ $t('formDropdownPlaceholderNameColumn') }}</b-form-select-option>
                 </template>
               </b-form-select>
             </b-form-group>
           </b-col>
         </b-row>
 
-        <b-progress :value="progress" variant="info" striped animated v-if="progress" class="mb-3" />
+        <template v-if="progress">
+          <b-progress :value="progress.done / progress.total * 100" variant="info" striped animated />
+          <p><template v-if="progress.done">{{ $tc('progressInfoComparisons', progress.done, { count: `${progress.done.toLocaleString()} / ${progress.total.toLocaleString()}` }) }} {{ $tc('progressInfoDuplicates', progress.duplicateCount, { count: progress.duplicateCount.toLocaleString() }) }}</template></p>
+        </template>
 
-        <b-button type="submit" :disabled="!input || !idColumn" v-if="progress === 0">Go!</b-button>
-        <b-button v-else @click.prevent="cancel">Cancel</b-button>
+        <b-button type="submit" :disabled="!input || !idColumn" v-if="progress === null">{{ $t('buttonGo') }}</b-button>
+        <b-button v-else @click.prevent="cancel">{{ $t('buttonCancel') }}</b-button>
       </b-form>
 
       <b-card no-body v-if="duplicates && duplicates.length > 0" class="mt-3">
         <b-tabs card content-class="mt-3" v-model="tabIndex" @changed="updateIndex" no-fade>
           <b-tab v-for="(dup, index) in duplicates" :key="dup.uuid">
             <template #title>
-              Results <button type="button" aria-label="Close" class="close ml-2" @click.stop="deleteTab(index)">×</button>
+              {{ $t('tabTitleResults') }} <button type="button" aria-label="Close" class="close ml-2" @click.stop="deleteTab(index)">×</button>
             </template>
 
             <Results :duplicates="dup" />
@@ -70,15 +80,18 @@
 import GerminateModal from '@/components/modals/GerminateModal'
 import Results from '@/components/Results'
 
+import { BIconQuestionCircle } from 'bootstrap-vue'
+
 export default {
   components: {
+    BIconQuestionCircle,
     GerminateModal,
     Results
   },
   data: function () {
     return {
       input: null,
-      progress: 0,
+      progress: null,
       tabIndex: 0,
       duplicates: [],
       headers: null,
@@ -117,6 +130,16 @@ export default {
     }
   },
   methods: {
+    tabber: function (event) {
+      const text = this.input
+      const originalSelectionStart = event.target.selectionStart
+      const textStart = text.slice(0, originalSelectionStart)
+      const textEnd = text.slice(originalSelectionStart)
+
+      this.input = `${textStart}\t${textEnd}`
+      event.target.value = this.varieties // required to make the cursor stay in place.
+      event.target.selectionEnd = event.target.selectionStart = originalSelectionStart + 1
+    },
     download: function (index) {
       const dataString = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(this.duplicates[index].duplicates))}`
       const a = document.createElement('a')
@@ -138,11 +161,16 @@ export default {
     cancel: function () {
       if (this.worker) {
         this.worker.terminate()
-        this.progress = 0
+        this.progress = null
       }
     },
     onSubmit: function () {
-      this.progress = 0
+      this.progress = {
+        running: false,
+        done: 0,
+        total: 1,
+        duplicateCount: 0
+      }
 
       this.worker = new Worker('./levenshtein.worker.js')
 
@@ -156,9 +184,9 @@ export default {
 
       this.worker.onmessage = e => {
         if (e.data) {
-          if (e.data.progress) {
-            this.progress = e.data.progress
-          } else if (e.data.duplicates) {
+          if (e.data.running) {
+            this.progress = e.data
+          } else {
             const end = Date.now()
 
             const dup = e.data.duplicates
@@ -172,14 +200,15 @@ export default {
             const newData = {
               uuid: this.uuidv4(),
               duplicates: dup,
-              runtime: Math.ceil((end - start) / 1000)
+              runtime: Math.ceil((end - start) / 1000),
+              total: e.data.total
             }
 
             Object.freeze(newData)
 
             this.duplicates.push(newData)
 
-            this.progress = 0
+            this.progress = null
           }
         }
       }
@@ -206,8 +235,5 @@ export default {
 <style>
 .nav.nav-tabs .close {
   font-size: 1.2rem;
-}
-.jumbotron img {
-  max-height: 120px;
 }
 </style>

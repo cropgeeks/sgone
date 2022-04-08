@@ -1,26 +1,26 @@
 <template>
-  <b-modal title="Import from Germinate"
-           ok-title="Import"
+  <b-modal :title="$t('modalTitleImportGerminate')"
+           :ok-title="$t('buttonImport')"
            :ok-disabled="!canContinue"
-           cancel-title="Cancel"
+           :cancel-title="$t('buttonCancel')"
            @ok.prevent="onSubmit"
            ref="germinateModal">
-    <p>You can import germplasm and trait definitions from Germinate to check for duplicates. Enter the Germinate URL and optionally credentials below.</p>
+    <p>{{ $t('modalTextImportGerminate') }}</p>
     <b-form @submit.prevent="onSubmit">
-      <b-form-radio-group v-model="importType" buttons :options="[{ text: 'Germplasm', value: 'germplasm' }, { text: 'Traits', value: 'traits' }]" button-variant="outline-secondary" class="mb-3" />
-      <b-form-group label="Germinate URL" label-for="url" description="The URL of the Germinate you want to request the data from.">
+      <b-form-radio-group v-model="importType" buttons :options="importTypeOptions" button-variant="outline-secondary" class="mb-3" />
+      <b-form-group :label="$t('formLabelGerminateUrl')" label-for="url" :description="$t('formDescriptionGerminateUrl')">
         <b-form-input id="url" v-model="url" />
       </b-form-group>
 
-      <b-form-group label="Requires credentials" label-for="credentials" description="Germinate may require login credentials to access the data.">
-        <b-form-radio-group v-model="needsCredentials" buttons :options="[{ text: 'Yes', value: true }, { text: 'No', value: false }]" button-variant="outline-secondary" class="mb-3" id="credentials" />
+      <b-form-group :label="$t('formLabelGerminateRequiresCredentials')" label-for="credentials" :description="$t('formDescriptionGerminateRequiresCredentials')">
+        <b-form-radio-group v-model="needsCredentials" buttons :options="credentialOptions" button-variant="outline-secondary" class="mb-3" id="credentials" />
       </b-form-group>
 
       <template v-if="needsCredentials">
-        <b-form-group label="Username" label-for="username">
+        <b-form-group :label="$t('formLabelUsername')" label-for="username" :description="$t('formDescriptionUsername')">
           <b-form-input id="username" v-model="username" />
         </b-form-group>
-        <b-form-group label="Password" label-for="password">
+        <b-form-group :label="$t('formLabelPassword')" label-for="password" :description="$t('formDescriptionPassword')">
           <b-form-input id="password" type="password" v-model="password" />
         </b-form-group>
       </template>
@@ -45,6 +45,12 @@ export default {
   computed: {
     canContinue: function () {
       return this.url && (this.needsCredentials ? (this.username !== null && this.password !== null) : true)
+    },
+    credentialOptions: function () {
+      return [{ text: this.$t('genericYes'), value: true }, { text: this.$t('genericNo'), value: false }]
+    },
+    importTypeOptions: function () {
+      return [{ text: this.$t('formSelectOptionGermplasm'), value: 'germplasm' }, { text: this.$t('formSelectOptionTraits'), value: 'traits' }]
     }
   },
   methods: {

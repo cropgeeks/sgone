@@ -1,8 +1,10 @@
 <template>
   <div v-if="duplicates.duplicates && duplicates.duplicates.length > 0">
-    <p>{{ duplicates.duplicates.length }} possible duplicates have been found<template v-if="duplicates.runtime"> in {{ duplicates.runtime }} seconds</template>.</p>
+    <p v-html="$tc('resultsInfoDuplicates', duplicates.duplicates.length, { count: duplicates.duplicates.length.toLocaleString() })" />
+    <p v-if="duplicates.runtime" v-html="$tc('resultsInfoRuntime', duplicates.runtime, { count: duplicates.runtime.toLocaleString() })" />
+    <p v-if="duplicates.total" v-html="$tc('resultsInfoComparisons', duplicates.total, { count: duplicates.total.toLocaleString() })" />
 
-    <b-button class="mb-3" @click="download(index)">Download</b-button>
+    <b-button class="mb-3" @click="download(index)">{{ $t('buttonDownload') }}</b-button>
 
     <b-table :items="duplicates.duplicates"
              :fields="columns"
@@ -33,13 +35,17 @@ export default {
   },
   data: function () {
     return {
-      currentPage: 1,
-      columns: [
-        { key: 'type', sortable: true, label: 'Match type' },
-        { key: 'one.id', sortable: true },
-        { key: 'one.name', sortable: true },
-        { key: 'two.id', sortable: true },
-        { key: 'two.name', sortable: true }
+      currentPage: 1
+    }
+  },
+  computed: {
+    columns: function () {
+      return [
+        { key: 'type', sortable: true, label: this.$t('tableColumnDuplicateType') },
+        { key: 'one.id', sortable: true, label: this.$t('tableColumnOneId') },
+        { key: 'one.name', sortable: true, label: this.$t('tableColumnOneName') },
+        { key: 'two.id', sortable: true, label: this.$t('tableColumnTwoId') },
+        { key: 'two.name', sortable: true, label: this.$t('tableColumnTwoName') }
       ]
     }
   }
