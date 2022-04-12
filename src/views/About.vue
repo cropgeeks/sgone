@@ -27,7 +27,7 @@
       <b-jumbotron>
         <b-row>
           <b-col cols=12 sm=4 class="text-center text-sm-right" order="1" order-sm="2">
-            <b-img fluid src="img/logo.svg" />
+            <b-img fluid src="img/logo.svg" alt="SGONE logo" />
           </b-col>
           <b-col cols=12 sm=8 order="2" order-sm="1">
             <h1 class="display-3 text-center text-sm-left">SGONE</h1>
