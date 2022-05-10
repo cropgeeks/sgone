@@ -1,7 +1,9 @@
 {
   "buttonCancel": "Cancel",
   "buttonDownload": "Download",
+  "buttonExportGrouped": "Export grouped items",
   "buttonGo": "Go!",
+  "buttonGroupResults": "Group duplicates",
   "buttonImport": "Import",
   "buttonImportFromGerminate": "From Germinate",
   "formDropdownPlaceholderIdColumn": "-- Please select the id column --",
@@ -29,6 +31,10 @@
   "pageTitleAbout": "About",
   "pageHtmlAbout": "<p>SGONE is a tool that tries to find possible duplicates in your data that aren't immediately obvious. This includes errors like typos, different punctuation or differences in upper- and lowercase letters.</p> <p>In short, SGONE will help you make sure your duplicate<strong>S</strong> are <strong>GONE</strong>!</p> <p>To achieve this, SGONE utilises the following appoach:</p> <ul> <li>Remove all non-alphanumeric characters.</li> <li>Convert the text to lowercase.</li> <li>Calculate the <a href='https://en.wikipedia.org/wiki/Levenshtein_distance'>Levenshtein Distance</a> between any pair of identifiers.</li> <li>Calculate a threshold for the distance value based on the average identifier length of the comparison.</li> <li>If the distance is zero, we have an exact match.</li> <li>If the distance is not zero, but below the threshold, check the following:</li> <ul> <li>Is one identifier a substring of the other?</li> <li>Just looking at the numeric values in the identifiers, are they different?</li> <li>If either of these are true, then we're likely not dealing with a duplicate. Otherwise, mark them as possible duplicates.</li> </ul> </ul> <p>The results are presented in tabular form with either an <span class='badge badge-success'>exact</span> or a <span class='badge badge-warning'>likely</span> match tag.</p>",
   "pageTextAboutDeveloper": "SGONE has been developed by <a href='https: //www.hutton.ac.uk/staff/sebastian-raubach'>Sebastian Raubach</a>. If you have any questions, suggestions or general feedback, please contact <a href='mailto:sebastian.raubach@hutton.ac.uk'>Sebastian</a>.",
+  "pageTitleDuplicates": "Duplicates",
+  "pageTextDuplicates": "The following table shows any duplicates that have been found. The <code>Duplicate type</code> column indicates whether the duplicate is an exact match or a likely match.",
+  "pageTitleJoined": "Grouped items",
+  "pageTextJoined": "The duplicates have been joined into groups of similar items. You are now able to select the 'preferred' item by clicking on it. By default, the first item is selected as preferred item.",
   "popoverTitleInput": "Input format",
   "popoverHtmlInput": "The input needs to be provided in tab-delimited format with column headers, e.g. <pre>id&#9;name\n1&#9;Albert\n2&#9;Barbara\n3&#9;Catherine\n4&#9;Katherine</pre>",
   "progressInfoComparisons": "No comparisons done yet. | 1 comparison done. | {count} comparisons done.",
@@ -41,5 +47,7 @@
   "tableColumnOneId": "Id one",
   "tableColumnOneName": "Name one",
   "tableColumnTwoId": "Id two",
-  "tableColumnTwoName": "Name two"
+  "tableColumnTwoName": "Name two",
+  "tableColumnPreferred": "Preferred",
+  "tableColumnOthers": "Others"
 }

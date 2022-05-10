@@ -1,7 +1,9 @@
 {
   "buttonCancel": "Abbrechen",
   "buttonDownload": "Herunterladen",
+  "buttonExportGerminate": "Gruppierte Elemente exportieren",
   "buttonGo": "Los!",
+  "buttonGroupResults": "Duplikate gruppieren",
   "buttonImport": "Importieren",
   "buttonImportFromGerminate": "Von Germinate",
   "formDescriptionGerminateUrl": "Die URL vom Germinate von dem Daten importiert werden sollen.",
@@ -29,6 +31,10 @@
   "pageTitleAbout": "Über",
   "pageHtmlAbout": "<p>SGONE ist ein Tool welches versucht mögliche Duplikate in deinen Daten zu finden die nicht direkt offensichtlich sind. Dies beinhaltet Fehler wie Rechtschreibfehler, unterschiedliche Zeichensetzung oder Unterschiede in der Groß-Klein-Schreibung.</p> <p>Kurz gesagt, SGONE hilt dabei sicherzustellen, dass Duplikate verschwinden!</p> <p>Um dies zu erreichen, verfolgt SGONE den folgenden Ansatz:</p> <ul> <li>Entferne alle nicht alphanumerischen Zeichen.</li> <li>Umwandlung von allen zeichen in Kleinschreibung.</li> <li>Berechnung der <a href='https://de.wikipedia.org/wiki/Levenshtein-Distanz'>Levenshtein Distanz</a> zwischen allen Paaren an Bezeichnungen.</li> <li>Berechnung eines Schwellenwertes für die Distanz basierend auf der durchschnittlichen Länge der Bezeichnungen eines Vergleichs.</li> <li>Falls die Distanz gleich Null ist, wurde ein exaktes Duplikat gefunden.</li> <li>Falls die Distanz nicht gleich Null ist, aber unterhalb des Schwellenwertes liegt, überprüfe die folgenden Kriterien:</li> <ul> <li>Ist eine Bezeichnung ein Teilwort des anderen?</li> <li>Wenn nur die Zahlen in den Bezeichnungen berücksichtig werden, sind diese verschieden?</li> <li>Falls eine der oberen Fragen wahr ist, handelt es sich wahrscheinlich nicht um ein Duplikat. Andernfalls, markiere die Bezeichnungen als mögliche Duplikate.</li> </ul> </ul> <p>Die Ergebnisse werden in einer Tabelle dargestellt und entweder mit einer <span class='badge badge-success'>exakt</span> oder <span class='badge badge-warning'>wahrscheinlich</span> Markierung versehen.</p>",
   "pageTextAboutDeveloper": "SGONE wurde entwickelt von <a href='https: //www.hutton.ac.uk/staff/sebastian-raubach'>Sebastian Raubach</a>. Bei Fragen, Vorschlägen oder genereller Rückmeldung, bitte mit <a href='mailto:sebastian.raubach@hutton.ac.uk'>Sebastian</a> in Kontakt setzen.",
+  "pageTitleDuplicates": "Duplikate",
+  "pageTextDuplicates": "Die folgende Tabelle zeigt alle Duplikate die gefunden wurden an. Die <code>Duplikat-Typ</code> Spalte hebt hervor ob es sich um ein exaktes Duplikate oder ein wahrscheinliches Duplikat handelt.",
+  "pageTitleJoined": "Gruppierte Elemente",
+  "pageTextJoined": "Die Duplikate wurden in Gruppen ähnlicher Elemente eingeteilt. Es kann jetzt das bevorzugte Element der Gruppe durch Klicken gewählt werden. Standardmäßig wurde das erste Element als bevorzugt eingeteilt.",
   "popoverTitleInput": "Eingabeformat",
   "popoverHtmlInput": "Die Eingabe muss in Tab-getrenntem Format mit Spaltenkopfzeilen angegeben werden, z.B. <pre>id&#9;name\n1&#9;Albert\n2&#9;Barbara\n3&#9;Catherine\n4&#9;Katherine</pre>",
   "progressInfoComparisons": "Keine Vergleiche bisher abgeschlossen. | Ein Vergleich bisher abgeschlossen. | {count} Vergleiche bisher abgeschlossen.",
@@ -41,5 +47,7 @@
   "tableColumnOneId": "Erste Id",
   "tableColumnOneName": "Erster Name",
   "tableColumnTwoId": "Zweite Id",
-  "tableColumnTwoName": "Zweiter Name"
+  "tableColumnTwoName": "Zweiter Name",
+  "tableColumnPreferred": "Bevorzugt",
+  "tableColumnOthers": "Andere"
 }

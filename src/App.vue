@@ -26,7 +26,7 @@
     </b-navbar>
 
     <!-- The main content -->
-    <router-view :key="$route.path" />
+    <router-view :key="$route.path" class="mb-4" />
   </div>
 </template>
 
@@ -81,7 +81,6 @@ export default {
 <style lang="scss">
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
-@import '~bootswatch/dist/sandstone/bootswatch';
 
 .jumbotron img {
   max-height: 120px;

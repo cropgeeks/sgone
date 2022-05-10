@@ -12,7 +12,10 @@
       </b-row>
     </b-jumbotron>
     <template v-if="supportsWorker">
-      <b-dropdown :text="$t('buttonImport')" class="mb-3">
+      <b-dropdown class="mb-3">
+        <template #button-content>
+          <BIconBoxArrowInDown /> {{ $t('buttonImport') }}
+        </template>
         <b-dropdown-item @click="$refs.germinateModal.show()">{{ $t('buttonImportFromGerminate') }}</b-dropdown-item>
       </b-dropdown>
 
@@ -54,8 +57,8 @@
           <p><template v-if="progress.done">{{ $tc('progressInfoComparisons', progress.done, { count: `${progress.done.toLocaleString()} / ${progress.total.toLocaleString()}` }) }} {{ $tc('progressInfoDuplicates', progress.duplicateCount, { count: progress.duplicateCount.toLocaleString() }) }}</template></p>
         </template>
 
-        <b-button type="submit" :disabled="!input || !idColumn" v-if="progress === null">{{ $t('buttonGo') }}</b-button>
-        <b-button v-else @click.prevent="cancel">{{ $t('buttonCancel') }}</b-button>
+        <b-button type="submit" :disabled="!input || !idColumn" v-if="progress === null"><BIconPlayFill /> {{ $t('buttonGo') }}</b-button>
+        <b-button v-else @click.prevent="cancel"><BIconStopFill /> {{ $t('buttonCancel') }}</b-button>
       </b-form>
 
       <b-card no-body v-if="duplicates && duplicates.length > 0" class="mt-3">
@@ -80,11 +83,14 @@
 import GerminateModal from '@/components/modals/GerminateModal'
 import Results from '@/components/Results'
 
-import { BIconQuestionCircle } from 'bootstrap-vue'
+import { BIconQuestionCircle, BIconPlayFill, BIconStopFill, BIconBoxArrowInDown } from 'bootstrap-vue'
 
 export default {
   components: {
     BIconQuestionCircle,
+    BIconPlayFill,
+    BIconStopFill,
+    BIconBoxArrowInDown,
     GerminateModal,
     Results
   },
@@ -140,13 +146,6 @@ export default {
       event.target.value = this.varieties // required to make the cursor stay in place.
       event.target.selectionEnd = event.target.selectionStart = originalSelectionStart + 1
     },
-    download: function (index) {
-      const dataString = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(this.duplicates[index].duplicates))}`
-      const a = document.createElement('a')
-      a.href = dataString
-      a.download = 'sgone.json'
-      a.click()
-    },
     updateIndex: function (currentTabs, prevTabs) {
       if (currentTabs.length >= prevTabs.length) {
         this.tabIndex = currentTabs.length - 1
@@ -159,8 +158,8 @@ export default {
       this.input = data
     },
     cancel: function () {
-      if (this.worker) {
-        this.worker.terminate()
+      if (this.levenshteinWorker) {
+        this.levenshteinWorker.terminate()
         this.progress = null
       }
     },
@@ -172,17 +171,17 @@ export default {
         duplicateCount: 0
       }
 
-      this.worker = new Worker('./levenshtein.worker.js')
+      this.levenshteinWorker = new Worker('./levenshtein.worker.js')
 
       const start = Date.now()
 
-      this.worker.postMessage({
+      this.levenshteinWorker.postMessage({
         data: this.input.split(/\r?\n/),
         idColumn: this.idColumn,
         nameColumn: this.nameColumn
       })
 
-      this.worker.onmessage = e => {
+      this.levenshteinWorker.onmessage = e => {
         if (e.data) {
           if (e.data.running) {
             this.progress = e.data

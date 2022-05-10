@@ -14,7 +14,7 @@
         <b-col id="hutton-banner-land" />
         <b-col id="hutton-banner-partnership" />
       </b-row>
-      <b-row class="about-footer bg-primary px-3">
+      <b-row class="about-footer bg-secondary px-3">
         <b-col cols=12 sm=6 class="about-logo">
           <img src="@/assets/ics-sdg.svg" class="my-5 img-fluid" alt="ICS logo" >
         </b-col>
