@@ -41,18 +41,19 @@
                :fields="joinedColumns"
                :per-page="100"
                :current-page="joinedCurrentPage"
+               primary-key="uuid"
                responsive striped hover>
-        <template #head(checked)>
+        <template #head(uuid)>
           <b-form-checkbox :checked="allSelected" @change="onSelectionHeaderClicked"/>
         </template>
-        <template #cell(checked)="data">
-          <b-form-checkbox :value="data.index" v-model="selectedItems" />
+        <template #cell(uuid)="data">
+          <b-form-checkbox :value="data.item.uuid" v-model="selectedItems" />
         </template>
         <template #cell(preferred)="data">
-          <b-badge href="#" @click.prevent="selectRow(data.index)" variant="success">{{ data.item.preferred.name }}</b-badge>
+          <b-badge href="#" @click.prevent="selectRow(data.item.uuid)" variant="success">{{ data.item.preferred.name }}</b-badge>
         </template>
         <template #cell(others)="data">
-          <b-badge href="#" @click.prevent="swapPreferred(data.index, index)" variant="info" class="mr-2" v-for="(other, index) in data.item.others" :key="`other-${other.id}`">{{ other.name }}</b-badge>
+          <b-badge href="#" @click.prevent="swapPreferred(data.item.uuid, index)" variant="info" class="mr-2" v-for="(other, index) in data.item.others" :key="`other-${other.id}`">{{ other.name }}</b-badge>
         </template>
       </b-table>
 
@@ -106,7 +107,7 @@ export default {
     },
     joinedColumns: function () {
       return [
-        { key: 'checked', sortable: false, label: '' },
+        { key: 'uuid', sortable: false, label: '' },
         { key: 'preferred', sortable: false, label: this.$t('tableColumnPreferred') },
         { key: 'others', sortable: false, label: this.$t('tableColumnOthers') }
       ]
@@ -118,17 +119,18 @@ export default {
   methods: {
     onSelectionHeaderClicked: function (value) {
       if (value) {
-        this.selectedItems = this.joined.map((d, i) => i)
+        this.selectedItems = this.joined.map(d => d.uuid)
       } else {
         this.selectedItems = []
       }
     },
-    selectRow: function (index) {
-      if (!this.selectedItems.includes(index)) {
-        this.selectedItems.push(index)
+    selectRow: function (uuid) {
+      if (!this.selectedItems.includes(uuid)) {
+        this.selectedItems.push(uuid)
       }
     },
-    swapPreferred: function (rowIndex, itemIndex) {
+    swapPreferred: function (uuid, itemIndex) {
+      const rowIndex = this.joined.findIndex(r => r.uuid === uuid)
       const row = JSON.parse(JSON.stringify(this.joined[rowIndex]))
 
       const temp = row.preferred
@@ -136,7 +138,7 @@ export default {
       row.others.push(temp)
       Vue.set(this.joined, rowIndex, row)
 
-      this.selectRow(rowIndex)
+      this.selectRow(uuid)
     },
     cancel: function () {
       if (this.joinerWorker) {
@@ -167,7 +169,7 @@ export default {
             this.selectedItems = []
             this.joined = dup.map(d => {
               return {
-                checked: false,
+                uuid: this.uuidv4(),
                 preferred: d.shift(),
                 others: d
               }
@@ -192,15 +194,30 @@ export default {
       a.click()
     },
     downloadGrouped: function () {
-      const dataString = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(this.selectedItems.map(i => {
-        const result = JSON.parse(JSON.stringify(this.joined[i]))
-        delete result.checked
-        return result
-      })))}`
+      const dataString = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(this.joined.filter(j => this.selectedItems.includes(j.uuid))
+        .map(j => {
+          const result = JSON.parse(JSON.stringify(j))
+          delete result.uuid
+          delete result.preferred.reduced
+          result.others.forEach(o => {
+            delete o.reduced
+          })
+          return result
+        })))}`
       const a = document.createElement('a')
       a.href = dataString
       a.download = 'sgone-grouped.json'
       a.click()
+    },
+    /**
+     * Generates a v4 UUID
+     */
+    uuidv4: function () {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0
+        const v = c === 'x' ? r : (r & 0x3 | 0x8)
+        return v.toString(16)
+      })
     }
   }
 }
