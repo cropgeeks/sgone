@@ -12,12 +12,15 @@
       </b-row>
     </b-jumbotron>
     <template v-if="supportsWorker">
-      <b-dropdown class="mb-3">
-        <template #button-content>
-          <BIconBoxArrowInDown /> {{ $t('buttonImport') }}
-        </template>
-        <b-dropdown-item @click="$refs.germinateModal.show()">{{ $t('buttonImportFromGerminate') }}</b-dropdown-item>
-      </b-dropdown>
+      <b-button-group class="mb-3">
+        <b-dropdown>
+          <template #button-content>
+            <BIconBoxArrowInDown /> {{ $t('buttonImport') }}
+          </template>
+          <b-dropdown-item @click="$refs.germinateModal.show()">{{ $t('buttonImportFromGerminate') }}</b-dropdown-item>
+        </b-dropdown>
+        <b-button @click="loadExample"><BIconFileEarmarkRuled /> {{ $t('buttonLoadExample') }}</b-button>
+      </b-button-group>
 
       <b-form @submit.prevent="onSubmit">
         <b-form-group label-for="input">
@@ -28,7 +31,7 @@
               <div v-html="$t('popoverHtmlInput')" />
             </b-popover>
           </template>
-          <b-form-textarea id="input" @keydown.tab.prevent="tabber($event)" :rows="6" v-model="input"/>
+          <b-form-textarea id="input" @keydown.tab.prevent="tabber($event)" :placeholder="$t('formPlaceholderInput')" :rows="6" v-model="input"/>
         </b-form-group>
 
         <b-row>
@@ -83,7 +86,9 @@
 import GerminateModal from '@/components/modals/GerminateModal'
 import Results from '@/components/Results'
 
-import { BIconQuestionCircle, BIconPlayFill, BIconStopFill, BIconBoxArrowInDown } from 'bootstrap-vue'
+import { BIconQuestionCircle, BIconPlayFill, BIconStopFill, BIconFileEarmarkRuled, BIconBoxArrowInDown } from 'bootstrap-vue'
+
+const exampleInput = 'id\tname\n1\tKatherine\n2\tCatherine\n3\tKahterine\n5\tBanana\n6\tBananna\n7\tBarber\n8\tBARBER\n9\tPrisma-1\n10\tPrisma 1\n11\tPrisma_1\n12\tPrisma(1)\n13\tPrisma-2\n14\tPrisma-3'
 
 export default {
   components: {
@@ -91,6 +96,7 @@ export default {
     BIconPlayFill,
     BIconStopFill,
     BIconBoxArrowInDown,
+    BIconFileEarmarkRuled,
     GerminateModal,
     Results
   },
@@ -136,6 +142,9 @@ export default {
     }
   },
   methods: {
+    loadExample: function () {
+      this.input = exampleInput
+    },
     tabber: function (event) {
       const text = this.input
       const originalSelectionStart = event.target.selectionStart

@@ -8,6 +8,7 @@ import { i18n } from '@/plugins/i18n.js'
 import {
   LayoutPlugin,
   ButtonPlugin,
+  ButtonGroupPlugin,
   FormPlugin,
   FormInputPlugin,
   JumbotronPlugin,
@@ -32,6 +33,7 @@ import {
 
 Vue.use(LayoutPlugin)
 Vue.use(ButtonPlugin)
+Vue.use(ButtonGroupPlugin)
 Vue.use(FormPlugin)
 Vue.use(FormGroupPlugin)
 Vue.use(FormInputPlugin)
