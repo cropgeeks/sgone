@@ -1,4 +1,5 @@
 // Copy from fastest-levenshtein library as imports won't work.
+// https://github.com/ka-weihe/fastest-levenshtein
 
 "use strict";
 const peq = new Uint32Array(0x10000);
