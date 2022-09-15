@@ -18,6 +18,7 @@
             <BIconBoxArrowInDown /> {{ $t('buttonImport') }}
           </template>
           <b-dropdown-item @click="$refs.germinateModal.show()">{{ $t('buttonImportFromGerminate') }}</b-dropdown-item>
+          <b-dropdown-item @click="$refs.brapiModal.show()">{{ $t('buttonImportFromBrapi') }}</b-dropdown-item>
         </b-dropdown>
         <b-button @click="loadExample"><BIconFileEarmarkRuled /> {{ $t('buttonLoadExample') }}</b-button>
       </b-button-group>
@@ -79,10 +80,12 @@
     <h1 v-else>Please use a browser that supports Web Workers</h1>
 
     <GerminateModal ref="germinateModal" @data-loaded="setGerminateData" />
+    <BrapiModal ref="brapiModal" @data-loaded="setGerminateData" />
   </b-container>
 </template>
 
 <script>
+import BrapiModal from '@/components/modals/BrapiModal'
 import GerminateModal from '@/components/modals/GerminateModal'
 import Results from '@/components/Results'
 
@@ -97,6 +100,7 @@ export default {
     BIconStopFill,
     BIconBoxArrowInDown,
     BIconFileEarmarkRuled,
+    BrapiModal,
     GerminateModal,
     Results
   },

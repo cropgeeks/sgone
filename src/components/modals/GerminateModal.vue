@@ -58,7 +58,6 @@ export default {
      * Shows and resets modal dialog
      */
     show: function (germinateUrl) {
-      this.url = null
       this.username = null
       this.password = null
       this.needsCredentials = false
