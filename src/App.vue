@@ -81,7 +81,7 @@ export default {
       domain: 'cropgeeks.github.io/sgone',
       hashMode: true,
       apiHost: 'https://plausible.hutton.ac.uk',
-      trackLocalhost: true
+      trackLocalhost: false
     })
 
     this.$nextTick(() => {

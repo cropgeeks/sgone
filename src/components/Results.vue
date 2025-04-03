@@ -22,6 +22,8 @@
              :fields="duplicateColumns"
              :per-page="100"
              :current-page="duplicateCurrentPage"
+             sort-by="type"
+             :sort-desc="false"
              responsive striped hover>
       <template #cell(type)="data">
         <b-badge :variant="data.value === 'exact' ? 'success' : 'warning'">{{ data.value }}</b-badge>
