@@ -31,10 +31,12 @@
 </template>
 
 <script>
+import { VuePlausible } from 'vue-plausible'
 import { BIconInfoCircle, BIconFlag } from 'bootstrap-vue'
 import { mapGetters } from 'vuex'
 
 import { loadLanguageAsync } from '@/plugins/i18n'
+import Vue from 'vue'
 
 export default {
   components: {
@@ -74,6 +76,17 @@ export default {
   },
   mounted: function () {
     loadLanguageAsync(this.storeLocale)
+
+    Vue.use(VuePlausible, {
+      domain: 'cropgeeks.github.io/sgone',
+      hashMode: true,
+      apiHost: 'https://plausible.hutton.ac.uk',
+      trackLocalhost: true
+    })
+
+    this.$nextTick(() => {
+      this.$plausible.enableAutoPageviews()
+    })
   }
 }
 </script>
